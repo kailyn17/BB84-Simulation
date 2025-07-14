@@ -1,1 +1,12 @@
 # Eve Basic Attack
+# Eve Basic Intercept-Resend Attack
+
+This folder contains a simulation of the classic intercept-resend attack.
+
+## Description
+Eve intercepts each qubit sent by Alice, measures it using a randomly chosen basis, and resends the result to Bob. This causes inconsistencies in the final key, which can be detected by calculating the Quantum Bit Error Rate (QBER).
+
+## Key Features
+- Eve measures qubits using random bases
+- Introduces errors in Bob’s measurements
+- QBER can be analyzed to detect eavesdropping
