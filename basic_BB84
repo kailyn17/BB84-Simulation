@@ -1,13 +1,1 @@
-# Basic BB84 Quantum Key Distribution
 
-This folder contains the basic BB84 QKD simulation.
-
-## Description
-Alice and Bob each randomly generate a sequence of bits and bases. Alice sends qubits encoded in her bases, and Bob measures them in his. After basis reconciliation, they discard mismatched positions and form a shared secret key.
-
-This version does not include any eavesdropper (Eve) and serves as a baseline for comparison.
-
-## Key Features
-- Random bit and basis generation
-- Qubit transmission and measurement
-- Basis matching and key extraction
