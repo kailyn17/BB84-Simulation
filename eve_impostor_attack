@@ -1,12 +1,1 @@
-# Eve Impostor Attack
-# Eve Impostor Attack Model
 
-This folder contains a simulation of an advanced QKD attack model.
-
-## Description
-In this version, Eve impersonates either Alice or Bob during transmission. She intercepts qubits, attempts to infer the key while avoiding detection, and then forwards manipulated qubits to the target. This demonstrates more sophisticated vulnerabilities in quantum communication.
-
-## Key Features
-- Eve impersonates Alice or Bob
-- Selective manipulation of qubits
-- Used for advanced security model testing
