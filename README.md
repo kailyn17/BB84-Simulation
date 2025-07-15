@@ -144,6 +144,7 @@ python bb84_basic.py
 python eve_basic_attack.py
 python eve_impostor_attack.py
 python qber_vs_intercept_ratio.py
+pip install -r requirements.txt
 ---
 
 ## 📅 更新紀錄
