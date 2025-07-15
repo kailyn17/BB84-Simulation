@@ -103,9 +103,21 @@ python eve_impostor_attack.py
 
 - 實作部分攔截（Partial Intercept）與記憶型攻擊（Memory-based Eve）
 - 模擬 Eve 假冒雙方身份並分析密鑰洩露機率
-- 探討 PQC（Post-Quantum Cryptography）與 QKD 的結合可能性
-- 進一步可視化不同攻擊策略下的錯誤率比較圖
+- 探討 PQC（Post-Quantum Cryptography）與 QKD 的結合應用
+- 製作不同攻擊策略下的 QBER 比較圖表，視覺化攻擊風險
 
+### 📊 QBER 錯誤率 vs 攔截比例
+
+![QBER 圖](images/qber_vs_intercept_ratio.png)
+
+本圖展示在不同攔截比例下，接收者 Bob 的錯誤率（QBER）變化。  
+攔截比例越高，QBER 趨勢上升，可作為偵測 Eve 竊聽行為的指標。
+
+#### 📋 資料來源表格（mean 與 std）如下，顯示不同攔截比例下的平均錯誤率（QBER mean）與標準差（QBER std）：
+
+![QBER 數據表](images/qber_mean_std_table.png)
+
+此資料可進一步用於誤差條圖（error bar）繪製，提升圖表的準確性與學術可信度。
 ---
 
 ## 💻 如何執行
