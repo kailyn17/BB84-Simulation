@@ -29,3 +29,76 @@
 python bb84_basic.py
 python eve_basic_attack.py
 python eve_impostor_attack.py
+
+
+#  QKD Simulation：BB84 協定模擬與 Eve 攻擊分析
+
+本專案模擬量子密鑰分配協定 BB84，並進一步探討常見的攻擊模型如中間人攻擊（Intercept-Resend）、假冒身份攻擊（Impersonation）等場景，並觀察錯誤率（QBER）變化以驗證 BB84 的安全性。
+
+---
+
+##  專案結構說明
+
+| 檔案名稱 | 說明 |
+|----------|------|
+| `bb84_basic.py` | 基本 BB84 協定模擬（無 Eve） |
+| `eve_basic_attack.py` | Eve 攔截 qubit 攻擊 + QBER 分析 |
+| `eve_impostor_attack.py` | Eve 假冒 Alice 或 Bob 的進階攻擊模型 |
+| `自述文件.md` | 初期構思與學習紀錄備份用 |
+| `README.md` | 本說明檔，完整介紹程式與模擬架構 |
+| `result_plot.png` | 攔截比例與 QBER 的可視化圖表 |
+
+---
+
+##  實作內容（摘要）
+
+- 模擬 Alice 與 Bob 傳輸 qubit 並完成密鑰篩選流程  
+- 加入 Eve 攻擊行為，觀察 QBER（Quantum Bit Error Rate）變化  
+- 可視化錯誤率與攔截比例之關係，展示攻擊行為對安全性的影響  
+- 進階模擬攻擊場景：Eve 假冒 Alice 或 Bob，探討身份偽造風險  
+
+---
+
+###  QBER 與攔截比例模擬（2025/07/15 新增）
+
+為進一步量化 BB84 對竊聽的抵抗能力，本模擬設計 Eve 以不同攔截比例進行攻擊（0.0～1.0），並計算 sifted key 中的 QBER 變化。
+
+模擬邏輯：
+- 當 Eve 攔截 qubit 並猜錯基底，將導致 Bob 測量結果發生錯誤
+- 攔截比例越高，錯誤率越明顯，QBER 因此上升
+
+> 實驗結果：當攔截比例達 100%，QBER 接近 24%，驗證 BB84 協定具備有效偵測攻擊之能力。
+
+ 結果圖示：
+
+![QBER vs Intercept Ratio](result_plot.png)
+
+ 對應檔案：`eve_basic_attack.py`
+
+---
+
+##  可延伸研究方向
+
+- 實作部分攔截（Partial Intercept）與記憶型攻擊（Memory-based Eve）
+- 模擬 Eve 假冒雙方身份並分析密鑰洩露機率
+- 探討 PQC（Post-Quantum Cryptography）與 QKD 的結合可能性
+- 進一步可視化不同攻擊策略下的錯誤率比較圖
+
+---
+
+##  如何執行
+
+請確認已安裝 Python 3 環境，可透過終端機依序執行：
+
+```bash
+python bb84_basic.py
+python eve_basic_attack.py
+python eve_impostor_attack.py
+---
+
+##  更新紀錄
+
+- 2025/07/15：新增 QBER vs 攔截比例模擬程式與圖表
+- 2025/07/14：完成 Eve 假冒模型初版程式架構
+- 2025/07/13：整合基本 BB84 與 Eve 攻擊模擬程式碼
+
