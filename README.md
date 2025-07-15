@@ -120,7 +120,7 @@ python eve_impostor_attack.py
 
 ### 📊 QBER 錯誤率 vs 攔截比例
 
-![QBER 圖](images/qber_vs_intercept_ratio.png)
+![QBER 圖](images/qber_vs_intercept_ratio.png.png)
 
 本圖視覺化呈現攔截行為與密鑰錯誤率（QBER）之關聯，有助於量化風險與設計偵測策略。
 攔截比例越高，QBER 趨勢上升，可作為偵測 Eve 竊聽行為的指標。
