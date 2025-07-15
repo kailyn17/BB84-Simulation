@@ -3,7 +3,7 @@
 ---
 
 ## 📘 專案簡介
-本專案模擬了 BB84 量子金鑰分發（Quantum Key Distribution, QKD）協定，並逐步加入不同的 Eve 攻擊模型，用於展示 QKD 在實際應用中對抗中間人攻擊（Man-in-the-Middle）與竊聽者（Eavesdropper）的強健性。
+本專案模擬了 BB84 量子金鑰分發（Quantum Key Distribution, QKD）協定，並逐步加入不同的 Eve 攻擊模型，用於展示 QKD 在實際應用中對抗中間人攻擊（Man-in-the-Middle）與竊聽者（Eavesdropper）的強健性。本專案旨在透過 Python 模擬 BB84 協定，探討其面對各類攻擊模型（如攔截重送與身份偽造）時的安全性變化，並透過 QBER 可視化分析以驗證協定的實用防禦能力。
 
 ---
 
@@ -29,6 +29,7 @@
 ## 📈 模擬延伸：QBER 與攔截比例（2025/07/15 新增）
 
 為進一步量化 Eve 攻擊對 BB84 安全性的影響，本模擬設計不同攔截比例（Intercept Ratio）下的 QBER 分析。攔截比例自 0.0 增至 1.0（每次增幅 0.1），結果顯示 QBER 隨攔截比例上升而顯著增加，驗證 BB84 協定可偵測竊聽行為。
+本專案不僅重現經典 BB84 協定，亦首次整合 QBER 可視化與資料表，模擬不同攻擊策略下的錯誤變化趨勢，並建立後續擴充模型的實驗基礎。
 
 📎 對應程式檔案：`eve_basic_attack.py`  
 📊 可視化圖表：`result_plot.png`（請見 repo 圖片）
@@ -39,7 +40,9 @@
 
 - 🧪 加入部分攔截攻擊（Partial Intercept）、記憶型 Eve 等攻擊邏輯  
 - 🔐 整合 Post-Quantum Cryptography（PQC）模擬與防禦策略  
-- 🔄 探討 BB84 與 E91 協定設計邏輯與應用情境比較  
+- 🔄 探討 BB84 與 E91 協定設計邏輯與應用情境比較
+- 📌 探討 QKD 協定在面對量子攻擊與竊聽滲透下的實際防禦潛力，進一步以 BB84 為核心，設計「可預警的通訊防禦模組」，作為量子資安應用雛型。
+- 🛡️ 本專案也可作為模擬國防通訊環境中，竊聽偵測與攻擊防禦模型的教學用途，尤其在量子密碼學與未來 PQC 標準推動中有應用潛力。
 
 ---
 
@@ -101,16 +104,27 @@ python eve_impostor_attack.py
 
 ## 🚀 可延伸研究方向
 
+📎 [點我查看產生圖表的 Python 程式碼](qber_vs_intercept_ratio.py)
+
 - 實作部分攔截（Partial Intercept）與記憶型攻擊（Memory-based Eve）
 - 模擬 Eve 假冒雙方身份並分析密鑰洩露機率
 - 探討 PQC（Post-Quantum Cryptography）與 QKD 的結合應用
 - 製作不同攻擊策略下的 QBER 比較圖表，視覺化攻擊風險
 
+📌 國際標準趨勢補充：
+
+- 本專案延伸研究方向中亦可結合 PQC（後量子密碼學）模型。
+- 目前包括：
+  - 🇺🇸 **NIST（美國國家標準與技術研究院）**：已完成第一輪 PQC 演算法標準遴選（如 Kyber、Dilithium 等）
+  - 🇪🇺 **ETSI（歐洲電信標準協會）**：也持續進行 QKD 與 PQC 結合技術的標準制定
+  - 🌐 **ISO/IEC**：正研擬 QKD 與 PQC 共存的密鑰交換機制（如 ISO/IEC 23837）
+- 可望形成國際通用的密碼學與通訊防禦標準。
+
 ### 📊 QBER 錯誤率 vs 攔截比例
 
 ![QBER 圖](images/qber_vs_intercept_ratio.png)
 
-本圖展示在不同攔截比例下，接收者 Bob 的錯誤率（QBER）變化。  
+本圖視覺化呈現攔截行為與密鑰錯誤率（QBER）之關聯，有助於量化風險與設計偵測策略。
 攔截比例越高，QBER 趨勢上升，可作為偵測 Eve 竊聽行為的指標。
 
 #### 📋 資料來源表格（mean 與 std）如下，顯示不同攔截比例下的平均錯誤率（QBER mean）與標準差（QBER std）：
@@ -118,6 +132,7 @@ python eve_impostor_attack.py
 ![QBER 數據表](images/qber_mean_std_table.png)
 
 此資料可進一步用於誤差條圖（error bar）繪製，提升圖表的準確性與學術可信度。
+
 ---
 
 ## 💻 如何執行
@@ -128,12 +143,18 @@ python eve_impostor_attack.py
 python bb84_basic.py
 python eve_basic_attack.py
 python eve_impostor_attack.py
+python qber_vs_intercept_ratio.py
 ---
 
 ## 📅 更新紀錄
 
-- 2025/07/15：新增 QBER vs 攔截比例模擬程式與圖表
+- 2025/07/15：新增 QBER vs 攔截比例模擬程式與圖表 
 - 2025/07/14：完成 Eve 假冒模型初版程式架構
 - 2025/07/13：整合基本 BB84 與 Eve 攻擊模擬程式碼
+---
 
+> 📄 本專案亦整理為技術白皮書，彙整模擬邏輯、圖表與延伸設計，供教授審閱或投稿用途：  
+👉 [查看白皮書預覽](https://your-link)
 
+✍️ 作者：Kailyn｜高中自學者（量子資安模擬）  
+📬 聯絡方式：請見白皮書內頁或私訊聯繫
