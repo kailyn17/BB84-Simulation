@@ -1,0 +1,2 @@
+# Python 套件需求（請用 pip 安裝）
+matplotlib
