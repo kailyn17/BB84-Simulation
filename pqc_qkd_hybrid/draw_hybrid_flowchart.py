@@ -65,6 +65,4 @@ def generate_flowchart():
 
 if __name__ == "__main__":
     generate_flowchart()
-
-if __name__ == "__main__":
-    generate_flowchart()
+    
