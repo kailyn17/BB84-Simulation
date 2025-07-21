@@ -4,9 +4,11 @@
 會自動輸出 hybrid_flowchart.png 到 images 資料夾
 """
 
+import os
 from graphviz import Digraph
 
 def generate_flowchart():
+    os.makedirs('pqc_qkd_hybrid/images', exist_ok=True)
     dot = Digraph(comment="PQC × QKD 混合流程圖")
 
     # Alice 端
