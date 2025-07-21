@@ -34,7 +34,7 @@ def generate_flowchart():
     output_dir = os.path.join(os.path.dirname(__file__), "images")
     os.makedirs(output_dir, exist_ok=True)
 
-    # 畫圖參數
+    # 圖形位置設定（從上往下）
     pos = {
         "A1": (0, 6),
         "A2": (0, 5),
@@ -45,16 +45,26 @@ def generate_flowchart():
         "B3": (0, 0),
     }
 
+    # 取得節點標籤
     labels = nx.get_node_attributes(G, 'label')
-    plt.figure(figsize=(6, 9))
-    nx.draw(G, pos, with_labels=True, labels=labels, node_size=3000,
-            node_color="#CDEFFD", font_size=10, font_family='sans-serif',
-            edge_color="gray", arrowsize=20)
 
+    # 繪製流程圖
+    plt.figure(figsize=(6, 9))
+    nx.draw(
+        G, pos, with_labels=True, labels=labels,
+        node_size=3000, node_color="#CDEFFD",
+        font_size=10, font_family='sans-serif',
+        edge_color="gray", arrowsize=20
+    )
+
+    # 圖片輸出完整路徑
     output_path = os.path.join(output_dir, "hybrid_flowchart.png")
     plt.savefig(output_path, bbox_inches='tight')
     plt.close()
     print(f"✅ 成功輸出流程圖：{output_path}")
+
+if __name__ == "__main__":
+    generate_flowchart()
 
 if __name__ == "__main__":
     generate_flowchart()
