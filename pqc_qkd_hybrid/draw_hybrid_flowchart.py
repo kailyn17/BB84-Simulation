@@ -1,38 +1,60 @@
 # draw_hybrid_flowchart.py
 """
-產生 PQC × QKD 混合式加密流程圖
-會自動輸出 hybrid_flowchart.png 到 images 資料夾
+使用 matplotlib 與 networkx 畫出 PQC × QKD 混合流程圖
+圖檔會輸出為 images/hybrid_flowchart.png
 """
 
+import matplotlib.pyplot as plt
+import networkx as nx
 import os
-from graphviz import Digraph
 
 def generate_flowchart():
-    os.makedirs('pqc_qkd_hybrid/images', exist_ok=True)
-    dot = Digraph(comment="PQC × QKD 混合流程圖")
+    G = nx.DiGraph()
 
-    # Alice 端
-    dot.node('A1', '🔐 Alice：輸入明文')
-    dot.node('A2', '⚛️ QKD：產生共享密鑰（BB84）')
-    dot.node('A3', '🔒 PQC 加密明文（用 QKD 密鑰）')
-    dot.node('T', '📡 傳送密文')
+    # 節點設定（照順序命名）
+    G.add_node("A1", label="🔐 Alice：輸入明文")
+    G.add_node("A2", label="⚛️ QKD：產生共享密鑰\n（BB84）")
+    G.add_node("A3", label="🔒 PQC 加密明文\n（用 QKD 密鑰）")
+    G.add_node("T",  label="📡 傳送密文")
+    G.add_node("B1", label="⚛️ QKD：取得密鑰")
+    G.add_node("B2", label="🔓 PQC 解密密文")
+    G.add_node("B3", label="📩 還原明文")
 
-    # Bob 端
-    dot.node('B1', '⚛️ QKD：取得密鑰')
-    dot.node('B2', '🔓 PQC 解密密文')
-    dot.node('B3', '📩 還原明文')
+    # 邊設定
+    G.add_edges_from([
+        ("A1", "A2"),
+        ("A2", "A3"),
+        ("A3", "T"),
+        ("T", "B1"),
+        ("B1", "B2"),
+        ("B2", "B3")
+    ])
 
-    # 流程連線
-    dot.edge('A1', 'A2')
-    dot.edge('A2', 'A3')
-    dot.edge('A3', 'T')
-    dot.edge('T', 'B1')
-    dot.edge('B1', 'B2')
-    dot.edge('B2', 'B3')
+    # 圖片輸出資料夾
+    output_dir = os.path.join(os.path.dirname(__file__), "images")
+    os.makedirs(output_dir, exist_ok=True)
 
-    # 輸出圖檔（.png）
-    dot.render('pqc_qkd_hybrid/images/hybrid_flowchart', format='png', cleanup=True)
-    print("✅ 流程圖已產生 → images/hybrid_flowchart.png")
+    # 畫圖參數
+    pos = {
+        "A1": (0, 6),
+        "A2": (0, 5),
+        "A3": (0, 4),
+        "T":  (0, 3),
+        "B1": (0, 2),
+        "B2": (0, 1),
+        "B3": (0, 0),
+    }
+
+    labels = nx.get_node_attributes(G, 'label')
+    plt.figure(figsize=(6, 9))
+    nx.draw(G, pos, with_labels=True, labels=labels, node_size=3000,
+            node_color="#CDEFFD", font_size=10, font_family='sans-serif',
+            edge_color="gray", arrowsize=20)
+
+    output_path = os.path.join(output_dir, "hybrid_flowchart.png")
+    plt.savefig(output_path, bbox_inches='tight')
+    plt.close()
+    print(f"✅ 成功輸出流程圖：{output_path}")
 
 if __name__ == "__main__":
     generate_flowchart()
