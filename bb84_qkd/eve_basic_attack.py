@@ -55,3 +55,9 @@ print(f"Alice Key: {alice_key}")
 print(f"Bob Key:   {bob_key}")
 print(f"QBER: {qber:.2%}")
 
+if __name__ == "__main__":
+    # 使用範例：執行一次攔截攻擊並顯示 QBER
+    qber = eve_basic_attack_simulation(length=128, intercept_ratio=0.5)
+    print("模擬結果 QBER:", qber)
+
+
