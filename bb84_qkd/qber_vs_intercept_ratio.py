@@ -39,4 +39,4 @@ plt.show()
 if __name__ == "__main__":
     # 使用範例：直接執行此程式以產生 QBER 對攔截比例圖
     plot_qber_vs_intercept_ratio()
-    print("✅ 圖片已儲存為 images/qber_vs_intercept_ratio.png")
+    print("✅ 圖片已儲存為 images/qber_vs_intercept_ratio.png.png")
