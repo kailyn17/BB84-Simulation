@@ -41,3 +41,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+if __name__ == "__main__":
+    # 使用範例：產生金鑰並加密/解密一段訊息
+    public_key, private_key = generate_pqc_keys()
+    message = "Quantum"
+    ciphertext = pqc_encrypt(message, public_key)
+    decrypted = pqc_decrypt(ciphertext, private_key)
+
+    print("原始訊息:", message)
+    print("加密後:", ciphertext)
+    print("解密後:", decrypted)
+
