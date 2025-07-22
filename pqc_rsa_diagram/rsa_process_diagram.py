@@ -31,3 +31,9 @@ for text, (x, y) in steps:
 plt.title("RSA 演算法流程圖", fontsize=14, y=1.05)
 plt.savefig("images/rsa_process.png", bbox_inches='tight')
 plt.show()
+if __name__ == "__main__":
+    
+# 使用範例：繪製 RSA 加解密流程圖
+draw_rsa_process()
+print("✅ 圖檔已輸出為 images/rsa_process.png")
+
