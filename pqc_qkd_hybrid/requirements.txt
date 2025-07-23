@@ -1,2 +1,3 @@
+# PQC × QKD 混合式加密模擬模組所需套件
 matplotlib>=3.0    # 用於流程圖與可視化模擬
 networkx>=2.5      # 若流程圖使用 networkx 模擬流程結構
