@@ -19,6 +19,7 @@
 ---
 
 ## 🧪 使用方式
+
 ```bash
 pip install matplotlib
 python rsa_process_diagram.py
@@ -26,10 +27,11 @@ python rsa_process_diagram.py
 執行後，流程圖將自動輸出至：
 images/rsa_process.png
 
-<img src="images/images/rsa_process.png" width="600">
+🖼️ 查看流程圖
+🖼️ 點我查看圖片檔案：
+👉 images/rsa_process.png
 
 📁 資料夾結構
-
 pqc_rsa_diagram/
 ├── rsa_process_diagram.py     # 繪製 RSA 流程圖的主程式
 ├── images/
@@ -38,7 +40,7 @@ pqc_rsa_diagram/
 └── requirements.txt           # 所需套件清單（matplotlib）
 
 🧩 延伸應用建議
-結合 RSA 實作程式碼，輔助流程理解
+搭配 RSA 實作程式碼理解演算法流程
 
 與 PQC 模組結合，模擬過渡期混合加密架構
 
@@ -50,3 +52,4 @@ pqc_rsa_diagram/
 
 
 ---
+
