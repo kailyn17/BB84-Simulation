@@ -1,30 +1,52 @@
-# 🔐 RSA 加密流程圖示模擬
+# 🔐 RSA 加解密流程圖模擬
 
-本專案為 RSA 公鑰加密演算法的可視化流程圖。透過簡潔的圖像呈現從金鑰生成、加密到解密的整體邏輯，幫助初學者理解 RSA 的運作方式。
+本模擬專案以圖像方式呈現 RSA 演算法的關鍵步驟，包含金鑰生成與加解密邏輯，適合用於教學展示與初學者理解非對稱加密機制。
 
 ---
 
 ## 📌 演算法步驟
 
-1. 產生兩個質數 `p` 與 `q`
-2. 計算模數 `n = p × q`
-3. 計算歐拉函數 `φ(n) = (p-1)(q-1)`
-4. 選擇公開金鑰 `e`（需與 φ(n) 互質）
-5. 計算私鑰 `d`，滿足 `e × d ≡ 1 mod φ(n)`
-6. 加密：`c = m^e mod n`
-7. 解密：`m = c^d mod n`
+流程圖依序展示下列步驟：
+
+1. 選兩個質數 `p`, `q`  
+2. 計算 `n = p × q`  
+3. 計算歐拉函數 `φ(n) = (p - 1)(q - 1)`  
+4. 選定公開金鑰 `e`  
+5. 計算私鑰 `d`  
+6. 加密：`c = m^e mod n`  
+7. 解密：`m = c^d mod n`  
 
 ---
 
-## 🖼️ 圖片範例
-
-![RSA 流程圖](images/rsa_process.png.png)
-
----
-
-## 🚀 如何執行
-
+## 🧪 使用方式
 ```bash
-pip install -r requirements.txt
+pip install matplotlib
 python rsa_process_diagram.py
-執行後會在 images/ 資料夾下產生流程圖 rsa_process.png.png。
+
+執行後，流程圖將自動輸出至：
+images/rsa_process.png
+
+<img src="images/images/rsa_process.png" width="600">
+
+📁 資料夾結構
+
+pqc_rsa_diagram/
+├── rsa_process_diagram.py     # 繪製 RSA 流程圖的主程式
+├── images/
+│   └── rsa_process.png        # RSA 加解密流程圖輸出檔案
+├── README.md                  # 本自述文件
+└── requirements.txt           # 所需套件清單（matplotlib）
+
+🧩 延伸應用建議
+結合 RSA 實作程式碼，輔助流程理解
+
+與 PQC 模組結合，模擬過渡期混合加密架構
+
+擴充為互動式 CLI 工具或圖形介面展示
+
+📄 授權 License
+本專案採用 MIT License 授權，歡迎自由使用與修改。
+
+
+
+---
