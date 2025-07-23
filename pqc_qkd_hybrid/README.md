@@ -1,68 +1,61 @@
-# 📁 `pqc_qkd_hybrid/`：混合式密鑰交換模擬模組
+# 🔐 PQC × QKD 混合式密鑰交換模擬
 
-本模組為 PQC（Post-Quantum Cryptography）與 QKD（Quantum Key Distribution）結合應用的模擬設計，展示如何將 QKD 產生的量子金鑰轉換為 PQC 的位移量，用於模擬混合加密流程。
-
----
-
-## 📌 模組用途與情境
-
-- 教學應用：可做為 NIST PQC 與 QKD 混合應用的基礎教材
-- 實作練習：具工程邏輯的模組設計，模擬混合式加密場景
-- 研究延伸：可進一步結合國際標準與真實應用案例（軍事/產業）
+本模擬專案展示如何結合 QKD（量子金鑰分發）與 PQC（後量子密碼學），將 BB84 協定產生的金鑰導入後量子加密模組中，實現混合式加密流程。可用於教學展示、模擬實驗與研究應用。
 
 ---
 
-## 🧩 模組內容與功能說明
+## 📈 模擬流程圖展示
 
-| 檔案名稱                       | 說明 |
-|------------------------------|------|
-| `pqc_qkd_hybrid_simulation.py` | 主程式，整合 QKD 金鑰導出位移量，結合 PQC 加密文字 |
-| `qkd_module.py`                | QKD 模組，模擬 BB84 協定產生密鑰（隨機位元與量子基底） |
-| `pqc_module.py`                | PQC 模組，簡化 Kyber 架構為整數位移式公開金鑰加密 |
-| `draw_hybrid_flowchart.py`     | 流程圖產生器，輸出 hybrid_flowchart.png |
-| `images/hybrid_flowchart.png`  | 混合式密鑰交換流程圖（需先執行流程圖程式生成） |
-| `README_HYBRID_SIM.md`         | 主程式分步說明（範例與結果輸出） |
-| `README_PQC_MODULE.md`         | PQC 模組說明 |
-| `README_QKD_MODULE.md`         | QKD 模組說明 |
-| `requirements.txt`             | 所需安裝的 Python 套件清單 |
+以下為 PQC × QKD 混合式加密流程示意圖：  
+（點擊圖片可放大預覽）
+
+[![Hybrid Flowchart](https://github.com/kailyn17/BB84-Simulation/raw/main/pqc_qkd_hybrid/images/hybrid_flowchart.png)](https://github.com/kailyn17/BB84-Simulation/blob/main/pqc_qkd_hybrid/images/hybrid_flowchart.png)
+
+## 📌 模擬步驟流程
+
+1. 執行 QKD 模組產生金鑰  
+2. 將 QKD 金鑰總和導出整數位移量  
+3. 使用 PQC 公鑰加密文字（模擬位移加密）  
+4. 解密流程中還原明文  
+5. 可搭配流程圖理解整體交換過程
 
 ---
 
-## 🛠️ 執行方式
+## 🧪 使用方式
 
-先安裝套件：
+先安裝所需套件：
+
 ```bash
 pip install -r requirements.txt
 
-執行主程式：
-
+執行主模擬程式：
 python pqc_qkd_hybrid_simulation.py
 
 產生流程圖：
-
 python draw_hybrid_flowchart.py
 
-📈 混合式流程圖展示（Hybrid Flowchart）
-以下為 PQC × QKD 混合式加密流程示意圖：
+📂 專案結構與說明
+| 檔案名稱                           | 說明                      |
+| ------------------------------ | ----------------------- |
+| `pqc_qkd_hybrid_simulation.py` | 主程式：整合 QKD 金鑰與 PQC 加密模擬 |
+| `qkd_module.py`                | 模擬 QKD（BB84）協定產生金鑰      |
+| `pqc_module.py`                | 模擬 PQC 加密流程（整數位移邏輯）     |
+| `draw_hybrid_flowchart.py`     | 自動產生流程圖                 |
+| `images/hybrid_flowchart.png`  | 混合流程圖示意圖                |
+| `README_HYBRID_SIM.md`         | 主程式模擬分解說明               |
+| `README_PQC_MODULE.md`         | PQC 模組細節說明              |
+| `README_QKD_MODULE.md`         | QKD 模組細節說明              |
+| `requirements.txt`             | 所需 Python 套件列表          |
 
-![Hybrid Flowchart](./pqc_qkd_hybrid/images/hybrid_flowchart.png)
-(後續會優化圖片預覽問題，可先自行參閱pqc_qkd_hybrid/images/hybrid_flowchart.png)
-此圖展示如何從 QKD 金鑰推導出位移量，並搭配 PQC 進行整體加密流程的模擬應用。
+🧠 延伸應用與未來方向
+🔒 國際 PQC 標準補充（Kyber、NTRU）
 
-📚 延伸說明
-可搭配以下說明檔案閱讀：
+⚛️ QKD 實驗資料模擬與 QBER 錯誤率展示
 
-README_HYBRID_SIM.md：主程式操作與觀察項目
+🚨 QBER 超出安全閾值時的警示模擬（安全機制觸發）
 
-README_PQC_MODULE.md：PQC 模組介紹與加密邏輯
-
-README_QKD_MODULE.md：QKD 密鑰生成模擬原理
-
-📌 本模組可作為後續混合式加密實驗的起點，未來可延伸加入：
-
-國際 PQC 標準（如 Kyber、NTRU）
-BB84 真實實驗數據
-安全閥值、自動 QBER 告警機制（例如 QBER 異常時觸發提示）
-
+本模組為 QKD × PQC 混合應用的模擬起點，適合教學實驗、研究延伸與國防科技應用場景分析。
 
 ---
+
+
