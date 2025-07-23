@@ -1,71 +1,75 @@
-# 🔐 PQC × QKD 混合式密鑰交換模擬
+# 🧪 pqc_qkd_hybrid_simulation.py 使用說明
 
-本模擬展示後量子密碼學（PQC）與量子金鑰分發（QKD）結合的加密應用，整合 QKD 產生的共享金鑰與 PQC 加解密邏輯，模擬未來混合安全架構。
-
----
-
-## 📌 模擬流程說明
-
-1. 使用 BB84 協定模擬產生共享 bit 密鑰
-2. 將密鑰加總並轉為整數作為 PQC 加密用位移量
-3. 利用簡化 PQC 模組進行文字加密與解密
-4. 結果顯示：明文、密文、位移量、還原結果
+本主程式模擬 PQC × QKD 混合式密鑰交換過程，整合 BB84 金鑰分發協定與簡化後量子加解密邏輯，展示未來可行的量子混合架構實作雛型。
 
 ---
 
-## 🧪 使用方式
+## 📜 模擬說明
+
+本程式共分為三個階段：
+
+1. **QKD 密鑰產生（模擬 BB84 協定）**
+   - 使用 `qkd_module.py` 隨機產生 Alice 與 Bob 的位元與基底
+   - 根據相同基底篩選出共同密鑰（sifted key）
+
+2. **密鑰轉換為 PQC 加密用途**
+   - 將 bit 串加總後取模（避免為 0）
+   - 結果作為 PQC 加密的「位移量」
+
+3. **加解密模擬**
+   - 將原始明文透過位移進行簡化加密（類似 Caesar Cipher）
+   - 再以相反方向位移解密，驗證是否還原成功
+
+---
+
+## 📂 套件依賴
+
+- `random`（內建）
+- `pqc_module.py`：簡化 PQC 加解密邏輯
+- `qkd_module.py`：BB84 密鑰產生邏輯
+
+---
+
+## 🚀 執行方式
 
 ```bash
-pip install -r requirements.txt
 python pqc_qkd_hybrid_simulation.py
-python draw_hybrid_flowchart.py
 
-🧠 備註：
+📌 範例輸出：
 
-QKD 產生 [0, 1] bit 串，模擬 BB84 協定
+🔐 PQC + QKD 混合式密鑰交換模擬
 
-PQC 模擬為簡化位移加密（類似 Caesar cipher）
+=== Step 1: 透過 QKD 協定產生共享密鑰 ===
+QKD 產生的共享密鑰（bit 串）:
+[1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0]
 
-僅供教學用途，非正式密碼演算法
+=== Step 2: 將 QKD 密鑰轉換成 PQC 用的位移量 ===
+QKD 推導出的位移量（模擬用）: 9
 
-📁 專案結構
+=== Step 3: 使用 PQC 模組進行加解密 ===
+原始訊息: QuantumHybrid
+加密後密文: Zjdz~zQkd{|rm
+解密後還原: QuantumHybrid
 
-pqc_qkd_hybrid/
-├── pqc_qkd_hybrid_simulation.py     # 主程式
-├── pqc_module.py                    # PQC 演算法模組（簡化位移加密）
-├── qkd_module.py                    # QKD 模組（模擬 BB84 協定）
-├── draw_hybrid_flowchart.py         # 流程圖繪製程式
-├── images/
-│   └── hybrid_flowchart.png         # 混合架構流程圖（使用 matplotlib）
-├── README.md                        # 主自述文件（本檔）
-├── README_HYBRID_SIM.md             # 主程式說明（擴充用）
-├── README_PQC_MODULE.md             # PQC 模組說明
-├── README_QKD_MODULE.md             # QKD 模組說明
-└── requirements.txt                 # 相依套件清單
 
-🖼️ 流程圖展示
-以下為 PQC × QKD 混合式加密流程示意圖：
+💡 注意事項
+本程式採用簡化版本的位移加密，僅作為教學與流程模擬用途
 
-[![Hybrid Flowchart](images/hybrid_flowchart.png)](images/hybrid_flowchart.png)
+QKD 模組產生 bit 串長度可自行指定
 
-🔧 相依套件（requirements.txt）
+請勿將此作法視為實際密碼演算法
 
-matplotlib
-networkx
+🧩 可結合應用
 
-🧩 未來延伸方向
-將 PQC 模組替換為 Kyber 參數模擬
+📊 可視化 QBER 或密鑰長度統計（搭配圖表模組）
 
-模擬 Eve 攻擊者插入干擾或假冒
+🧠 混合架構設計與延伸攻擊模擬
 
-加入錯誤率（QBER）與安全閾值偵測機制
+🛡️ 實作偽造者（Eve）插入干擾模型
 
-對比密鑰長度對安全性的影響
+📄 作者備註
+本模擬程式由自學者獨立完成，目的為探索量子與後量子密碼結合的可能性，作為特殊選才與資安專案實作之用。
 
-結合 PQC 與 QKD 對抗量子電腦攻擊模型
-
-📄 授權
 MIT License
-
 
 ---
