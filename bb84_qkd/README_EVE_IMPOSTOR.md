@@ -1,39 +1,68 @@
-# 🎭 Eve 假冒 Alice / Bob 攻擊模擬
+# 🎭 Eve 假冒身份攻擊模擬（Impersonation Attack Model）
 
-本模組 `eve_impostor_attack.py` 模擬進階型中間人攻擊（Man-in-the-Middle），Eve 假冒通訊雙方之一（Alice 或 Bob）進行 qubit 傳送，並試圖在不被察覺的情況下竊取或操控金鑰內容。
-
----
-
-## 🧠 攻擊設計邏輯
-
-- Eve 攔截 qubit，**假冒 Alice 向 Bob 傳送 qubit**
-- 或假冒 Bob 向 Alice 回傳接收結果
-- 過程中紀錄雙方位元與基底資訊，造成更高 QBER 或直接破壞金鑰一致性
+本模組 `eve_impostor_attack.py` 模擬一種進階的量子攻擊手法 —— Eve 假冒 Alice 傳送 qubit 給 Bob，同時也假冒 Bob 接收來自 Alice 的 qubit。此模型可用於理解 QKD 系統中可能遭遇的假身分攻擊情境，並觀察密鑰錯誤率（QBER）變化。
 
 ---
 
-## 🧪 與傳統攔截的差異
+## 🧪 攻擊模型概念說明
 
-| 模型 | Eve 行為 | 錯誤來源 | 難偵測程度 |
-|------|-----------|------------|--------------|
-| 攔截重傳（Basic） | 隨機猜基底後轉送 | 基底猜錯 | 中等 |
-| 假冒攻擊（本模組） | 直接假冒角色 | 資訊不對稱 | 高 |
+| 模型階段     | 說明 |
+|--------------|------|
+| Alice 傳送 qubit         | 傳送原始 bit 與基底編碼 |
+| Eve 偽裝 Alice           | 擅自測量並重建 qubit 傳給 Bob |
+| Eve 偽裝 Bob             | 對 Alice 的 qubit 進行偽裝測量 |
+| Bob 測量                 | 使用自己的基底測量 Eve 傳來的 qubit |
 
----
-
-## 📋 示意輸出
-
-本模組會輸出每一輪傳輸的對照表，例如：
-Idx | A_bit A_base | E_base→E_bit | E_base→B_bit | B_base
-0 | 1 Z | X → 0 | Z → 1 | Z
-
+📌 本攻擊模型模擬「雙面偽裝」，在真實世界中對通訊雙方造成極大威脅。
 
 ---
 
-## 🧱 適用應用
+## 📘 模擬流程說明
 
-- 特殊選才展示「身份偽造」在量子安全中的風險
-- 延伸至多輪雙向驗證、QBER 偵測不明攻擊行為
+1. **Alice 隨機產生 bit 與基底**
+2. **Eve 隨機選擇兩組基底（模仿 Alice 與 Bob）**
+3. **Eve 依序測量、重建、再次測量後傳給 Bob**
+4. **Bob 使用自身基底測量並產生密鑰**
+5. **計算 QBER：Alice 原始密鑰 vs Bob 接收密鑰**
 
 ---
 
+## 💻 執行方式
+
+```bash
+python eve_impostor_attack.py
+
+📋 示意輸出格式：
+🔓 Eve 假冒攻擊模擬完成
+原始 Alice 密鑰（前 20 位）: [1, 0, 1, 1, 0, ...]
+最終 Bob 收到密鑰（前 20 位）: [1, 1, 1, 0, 0, ...]
+模擬 QBER：24.00%
+
+📌 QBER 以百分比格式顯示，便於理解錯誤比例。
+
+⚙️ 模組參數
+目前版本固定模擬 qubit 數量為 50，若需自訂長度可修改 main() 中的 n = 50 參數。
+
+🔗 延伸模組建議
+bb84_basic.py：對照組（無攻擊），QBER 接近 0%
+
+eve_basic_attack.py：攔截重送攻擊（Intercept-Resend）
+
+qber_vs_intercept_ratio.py：繪製 QBER vs 攔截比例的變化圖
+| 模組名稱                     | 角色類型    | 說明                            |
+| ------------------------ | ------- | ----------------------------- |
+| `bb84_basic.py`          | ✅ 對照組   | 無干擾下的基礎金鑰產生流程                 |
+| `eve_basic_attack.py`    | ⚠️ 攔截攻擊 | Eve 攔截 qubit 後隨機測量並重送         |
+| `eve_impostor_attack.py` | 🎭 假冒攻擊 | Eve 同時假冒 Alice 與 Bob 傳送 qubit |
+
+🛡️ 開發備註
+使用 Python 內建模組 random，無需額外安裝
+
+適合用於展示 QKD 在假冒攻擊情境下的錯誤率變化
+
+可作為紅隊模擬或 QBER 異常分析基礎
+
+yaml
+
+
+---
