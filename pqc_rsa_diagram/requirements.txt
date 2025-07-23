@@ -1,2 +1,2 @@
-# Python 套件需求（請用 pip 安裝）
-matplotlib
+# RSA 加解密流程圖繪製模組所需套件
+matplotlib>=3.0
