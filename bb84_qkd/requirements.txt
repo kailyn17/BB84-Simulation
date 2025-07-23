@@ -1,1 +1,2 @@
-matplotlib
+# 本模組所需套件
+matplotlib>=3.0
