@@ -164,4 +164,27 @@ requirements.txt：所需套件清單（如 matplotlib 等）
 
 你的一點建議，都可能幫助本專案變得更完整，感謝支持與鼓勵 🙏
 
+##📄 研究白皮書與多元學習證明 | Whitepaper & Certificates
+為補強研究背景與特殊選才申請完整性，專案中額外補充兩項重要模組：
 
+📝 whitepaper/：研究成果白皮書（特殊選才用）
+檔案：李佳穎_白皮書_交大資工.pdf
+
+說明：整合本專案所有實作內容、架構設計與學習歷程，作為特殊選才申請成果使用
+
+特色：強調從 0 自學歷程、程式實作與模擬重現過程，並結合國際安全標準趨勢、QKD 與 PQC 應用整合、紅隊腳本發想等亮點
+
+📁 certificates_proof/：多元學習證明與參與紀錄
+子資料夾：certificates/
+
+內容包括：
+
+tsmc_online_seminar_certificate.pdf：台積電半導體雲端學院課程參與證明
+
+bryan_debate_course_certificate.jpg：布萊恩英文辯論課證書
+
+science_education_visit_physics.png：高中女生科教巡訪參加證明
+
+其他補充參與資料與學習說明 README
+
+📌 這些內容可作為申請面試的學習歷程佐證，呈現本專案背後的多元參與與學習動機。
