@@ -164,7 +164,7 @@ requirements.txt：所需套件清單（如 matplotlib 等）
 
 你的一點建議，都可能幫助本專案變得更完整，感謝支持與鼓勵 🙏
 
-##📄 研究白皮書與多元學習證明 | Whitepaper & Certificates
+## 📄 研究白皮書與多元學習證明 | Whitepaper & Certificates
 為補強研究背景與特殊選才申請完整性，專案中額外補充兩項重要模組：
 
 📝 whitepaper/：研究成果白皮書（特殊選才用）
