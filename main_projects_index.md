@@ -8,7 +8,7 @@
 | `pqc_qkd_hybrid/`              | 後量子密碼 × QKD 混合密鑰交換模擬 | `pqc_qkd_hybrid_simulation.py`, `images/hybrid_flowchart.png`            |
 | `pqc_rsa_diagram/`             | RSA 加解密流程圖示與模擬程式     | `rsa_process_diagram.py`, `images/rsa_process.png`                       |
 | `quantum_red_team_simulation/` | 量子資安紅隊攻擊模擬腳本         | `eve_impostor_bob.py`, `eve_memory_attack.py`, `qber_alert_simulator.py` |
-| `certificates_proof/`          | 多元學習證明與參與紀錄          | 台積電、布萊恩課程、科教館參訪等證書資料與補充說明                                                |
+| `certificates_proof/`          | 多元學習證明與參與紀錄          | 台積電半導體雲端學院課程證明、布萊恩英文辯論課程證明、高中女生科教訓訪等資料與補充說明                                                |
 | `whitepaper/`                  | 申請用白皮書文件（PDF）        | `李佳穎_白皮書_交大資工.pdf`                                                       |
 | `images/`                      | 各模組對應的圖像與可視化資源       | QBER 圖、流程圖、表格圖片等                                                         |
 | `LICENSE`                      | 授權條款（MIT License）    | 全專案套用 MIT 開源授權                                                           |
