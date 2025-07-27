@@ -188,3 +188,12 @@ science_education_visit_physics.png：高中女生科教巡訪參加證明
 其他補充參與資料與學習說明 README
 
 📌 這些內容可作為申請面試的學習歷程佐證，呈現本專案背後的多元參與與學習動機。
+
+---
+
+## 📌 教授建議補強紀錄（2025/07）
+
+- 🔐 協定流程補強與安全性邏輯解釋（`README_BB84_BASIC.md`）
+- 🧪 QBER 錯誤模型與圖像模擬補強（`README_QBER_ANALYSIS.md`）
+
+---
