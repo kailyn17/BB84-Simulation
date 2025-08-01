@@ -1,46 +1,87 @@
-# Quantum Red Team Simulation  
+# Quantum Red Team Simulation (Draft)
 
-本模組模擬了針對 **BB84 協定** 的紅隊攻擊情境，透過多種策略展示協定在面對惡意攔截與干擾時的安全性表現。  
-
----
-
-## 📂 模組內容  
-- **eve_impostor_bob.py**  
-  單次假冒 Bob 攻擊。Eve 以 30% 機率翻轉 Alice 傳送的比特，並計算 QBER。  
-
-- **eve_impostor_average.py**  
-  多次模擬假冒 Bob 攻擊，統計平均 QBER，以觀察隨機性與統計收斂特性。  
-
-- **eve_memory_attack.py**  
-  記憶型 Eve 攻擊。模擬 Eve 暫存部分比特並延遲測量的策略，展示協定在非傳統攔截模型下的脆弱性。  
-
-- **qber_alert_simulator.py**  
-  多次模擬下的 QBER 異常監測工具，用於分析在何種條件下需要啟動安全警報或丟棄金鑰。  
+## 1. 模組簡介
+本模組用於模擬紅隊對量子金鑰分配 (QKD, BB84) 的攻擊情境，並透過 QBER (Quantum Bit Error Rate) 的觀察，進一步判斷通道是否遭受竊聽或惡意干擾。  
+此部分屬於 **紅隊視角 (Red Team Perspective)** 的初步成果，提供 QKD 系統在攻擊下的可視化與安全判斷依據。
 
 ---
 
-## 🎯 攻擊目標  
-1. 驗證 **QBER（Quantum Bit Error Rate）** 是否能有效偵測惡意攔截。  
-2. 分析不同攻擊模型下的 **錯誤率變化趨勢**。  
-3. 提供紅隊視角的 **安全演練範例**，幫助研究與教育。  
+## 2. QBER 趨勢圖 (Visualization)
+
+在 Eve 攻擊 Alice 與 Bob 的傳輸通道時，QBER 會隨時間/實驗次數浮動，若 QBER 過高，則代表可能存在竊聽或干擾。
+
+### 折線圖展示
+![QBER 趨勢圖](images/qber_vs_attack.png)
+
+- 藍線：每次實驗的 QBER  
+- 紅線：平均 QBER (0.31)  
 
 ---
 
-## 📊 預期結果  
-- **單次攻擊** → QBER 波動較大，隨機性影響明顯。  
-- **多次模擬** → 平均 QBER 收斂至攻擊強度對應的合理範圍（例如 ~30% 攻擊下 QBER 約 0.3）。  
-- **記憶型攻擊** → 錯誤率分布異於單純隨機翻轉，展示 BB84 在更進階策略下的脆弱性。  
-- **QBER 警報** → 簡單的門檻判斷（如 QBER > 0.11 判定有攻擊）可作為安全防護依據。  
+## 3. QBER 數據統計 (Statistical Results)
+
+以下為 10 次模擬實驗的 QBER 結果：
+
+| 實驗次數 | QBER |
+|----------|------|
+| 1  | 0.20 |
+| 2  | 0.35 |
+| 3  | 0.30 |
+| 4  | 0.35 |
+| 5  | 0.25 |
+| 6  | 0.45 |
+| 7  | 0.25 |
+| 8  | 0.35 |
+| 9  | 0.25 |
+| 10 | 0.35 |
+
+**平均值 (Mean QBER)：** 0.31  
+**標準差 (Std)：** 0.07  
+
+> 📌 解讀：QBER 大於 **0.25** 的情境已顯示攻擊痕跡，超過安全閾值。
 
 ---
 
-## 🔮 未來延伸  
-- 假冒 Alice 攻擊：Eve 同時模擬接收端與傳送端。  
-- 動態攻擊策略：Eve 根據歷史資訊決定是否翻轉比特。  
-- 可視化模組：輸出 QBER 曲線或分布圖。  
-- 與 **PQC-QKD Hybrid 模擬** 整合，測試混合式防禦架構。  
+## 4. QBER 安全狀態模擬 (Alert Simulation)
+
+為了讓系統能即時判斷 QKD 通道是否安全，以下程式根據 QBER 數值給出三種狀態：
+
+```python
+# qber_alert_simulator.py
+# 根據 QBER 值判斷通道安全狀態
+
+import random
+
+def qber_alert(qber):
+    """
+    根據 QBER 值判斷通道狀態
+    - QBER < 0.11  → ✅ 安全
+    - 0.11 ≦ QBER < 0.25 → ⚠️ 可疑
+    - QBER ≧ 0.25 → 🚨 攻擊中
+    """
+    if qber < 0.11:
+        return "✅ 安全"
+    elif qber < 0.25:
+        return "⚠️ 可疑"
+    else:
+        return "🚨 攻擊中"
+
+def main():
+    qber = random.uniform(0, 0.4)
+    status = qber_alert(qber)
+    print(f"監測到 QBER = {qber:.2f} → 狀態: {status}")
+
+if __name__ == "__main__":
+    main()
+
+5. 未來延伸方向
+加入更多攻擊模型（例如：部分攔截、記憶型攻擊、假冒攻擊）
+
+結合 PQC × QKD 混合架構，測試紅隊攻擊下的防禦效能
+
+建立即時監測系統，輸出報表與安全警示
+
+📌 本文件為 草稿版本 (Draft)，隨著後續紅隊模組的完整實作將持續更新。
 
 ---
-
-✍️ 本紅隊模組的目標，不僅是展示攻擊方式，更是幫助理解 **量子金鑰分配（QKD）安全性在實驗與理論間的平衡**。
 
