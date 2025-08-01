@@ -1,1 +1,25 @@
+# ========================================
+# Quantum Red Team Simulation - Requirements
+# ========================================
+# 本檔案列出所有模擬程式所需套件，並標註用途與對應檔案
+# This file lists all dependencies for the simulation,
+# with usage notes mapped to each script.
+
+# ---------- 基礎運算 (Core Math) ----------
+numpy>=1.21.0
+# 用於隨機數生成與 QBER 計算
+# Required for random bit generation and QBER calculation
+# 對應檔案: eve_impostor_bob.py, eve_impostor_average.py, eve_memory_attack.py, eve_qber_simulation.py
+
+# ---------- 視覺化 (Visualization) ----------
+matplotlib>=3.4.0
+# 用於繪製 QBER 模擬結果曲線與平均線
+# Required for plotting QBER simulation results
+# 對應檔案: eve_qber_simulation.py, qber_alert_simulator.py
+
+# ---------- 互動式環境 (Interactive, Optional) ----------
+jupyterlab>=3.0.0
+# 提供 Notebook 互動展示，適合攻擊模擬過程的可視化解釋
+# Enables interactive visualization in Jupyter Notebook
+# 適用於: 所有模擬程式的展示與教學 (Optional for demonstration)
 
