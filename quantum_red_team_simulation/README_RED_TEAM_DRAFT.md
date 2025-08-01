@@ -11,7 +11,7 @@
 在 Eve 攻擊 Alice 與 Bob 的傳輸通道時，QBER 會隨時間/實驗次數浮動，若 QBER 過高，則代表可能存在竊聽或干擾。
 
 ### 折線圖展示
-![QBER 趨勢圖](images/qber_vs_attack.png)
+![QBER 趨勢圖](images/eve_qber_simulation.png)
 
 - 藍線：每次實驗的 QBER  
 - 紅線：平均 QBER (0.31)  
