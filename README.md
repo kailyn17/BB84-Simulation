@@ -44,6 +44,9 @@
 - 📘 自述文件：`README_BB84_BASIC.md`、`README_EVE_BASIC.md`、`README_EVE_IMPOSTOR.md`、`README_QBER_ANALYSIS.md`  
 - 📊 **補強完成**：根據教授建議，已補充 **協定流程安全性邏輯** 與 **QBER 錯誤模型圖像**
 
+📊 **成果可視化**  
+![QBER 攔截比例圖](./bb84_qkd/images/qber_vs_intercept_ratio.png)
+
 ---
 
 ### 🔄 `pqc_qkd_hybrid/`：混合式密鑰交換模擬模組
@@ -63,6 +66,9 @@
 - `images/hybrid_flowchart.png`：完整混合式流程圖，對應模擬執行順序
 - 📘 自述文件：`README_HYBRID_SIM.md`、`README_PQC_MODULE.md`、`README_QKD_MODULE.md`
 
+📊 **混合式流程圖**  
+![Hybrid Flowchart](./pqc_qkd_hybrid/images/hybrid_flowchart.png)
+
 ---
 
 ### 🔑 `pqc_rsa_diagram/`：RSA 加密流程視覺化模組
@@ -78,6 +84,9 @@
 - `rsa_process_diagram.py`：RSA 加解密流程圖繪製腳本
 - `images/rsa_process.png`：RSA 加解密流程圖
 - 📘 自述文件：`README.md`
+
+📊 **RSA 流程圖**  
+![RSA Process](./pqc_rsa_diagram/images/rsa_process.png)
 
 ---
 
@@ -97,6 +106,9 @@
 - `qber_alert_simulator.py`：針對不同 QBER 值觸發安全 / 可疑 / 攻擊中狀態
 - 📘 自述文件：`README_EVE_IMPOSTOR.md`, `README_EVE_MEMORY.md`, `README_RED_TEAM_DRAFT.md`
 - 📊 **補強完成**：新增 **QBER 折線圖、統計表與警示系統**
+
+📊 **紅隊攻擊 QBER 可視化**  
+![Eve QBER Simulation](./quantum_red_team_simulation/images/eve_qber_simulation.png)
 
 ---
 
