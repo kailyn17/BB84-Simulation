@@ -41,7 +41,8 @@
 - `eve_impostor_attack.py`：假冒型 Eve 模型，模擬 Eve 冒充 Alice 或 Bob 的資訊交換
 - `qber_vs_intercept_ratio.py`：模擬不同攔截比例下的 QBER（錯誤率）變化趨勢
 - `images/qber_vs_intercept_ratio.png`：對應圖表呈現攔截與錯誤率關係
-- 📘 自述文件：`README_BB84_BASIC.md`、`README_EVE_BASIC.md`、`README_EVE_IMPOSTOR.md`、`README_QBER_ANALYSIS.md`
+- 📘 自述文件：`README_BB84_BASIC.md`、`README_EVE_BASIC.md`、`README_EVE_IMPOSTOR.md`、`README_QBER_ANALYSIS.md`  
+- 📊 **補強完成**：根據教授建議，已補充 **協定流程安全性邏輯** 與 **QBER 錯誤模型圖像**
 
 ---
 
@@ -64,69 +65,60 @@
 
 ---
 
-### 📊 混合式流程圖（Hybrid Flowchart）
+### 🔑 `pqc_rsa_diagram/`：RSA 加密流程視覺化模組
 
-下圖展示了 QKD 金鑰如何導出位移量並搭配 PQC 進行加解密流程，模擬實際混合式密鑰交換應用場景：
-
-![Hybrid Flowchart](./pqc_qkd_hybrid/images/hybrid_flowchart.png)
-
----
-
-### 🔑 pqc_rsa_diagram/：RSA 加密流程視覺化模組
 📘 用途場景：以圖形方式呈現 RSA 加解密邏輯流程，用來輔助說明傳統公開金鑰加密與 PQC 架構的異同。
 
 🎯 教學應用價值：
-
-顯示學生具備傳統密碼學概念基礎，可作為 PQC 學習的對照組
-
-視覺化處理使得教學與引導更具直觀性
-
-幫助教授判斷學生並非僅學習新潮名詞，而是真正從基礎出發逐步理解
+- 顯示學生具備傳統密碼學概念基礎，可作為 PQC 學習的對照組
+- 視覺化處理使得教學與引導更具直觀性
+- 幫助教授判斷學生並非僅學習新潮名詞，而是真正從基礎出發逐步理解
 
 模組內容：
-
-rsa_process_diagram.py：RSA 加解密流程圖繪製腳本
-
-images/rsa_process.png：
-
-📘 自述文件：README.md
+- `rsa_process_diagram.py`：RSA 加解密流程圖繪製腳本
+- `images/rsa_process.png`：RSA 加解密流程圖
+- 📘 自述文件：`README.md`
 
 ---
 
-### 🧪 quantum_red_team_simulation/：紅隊模擬劇本模組（QKD 攻擊與告警機制測試）
+### 🧪 `quantum_red_team_simulation/`：紅隊模擬劇本模組（QKD 攻擊與告警機制測試）
+
 📘 用途場景：設計基於 QKD（量子金鑰分發）架構下的攻擊流程與預警邏輯，模擬紅隊視角的滲透策略與偵測機制，延伸至資安教育訓練與防禦系統測試。
 
 🎯 教學應用價值：
+- 作為 QKD 在真實環境下遭遇滲透攻擊時的模擬情境基礎
+- 可延伸至軍方紅隊演練、國防資安課程與預警系統設計
+- 結合 QBER 分析與告警門檻，實現動態錯誤率觸發模擬
 
-作為 QKD 在真實環境下遭遇滲透攻擊時的模擬情境基礎
-
-可延伸至軍方紅隊演練、國防資安課程與預警系統設計
-
-結合 QBER 分析與告警門檻，實現動態錯誤率觸發模擬
-
-模組內容（草稿階段）：
-
-eve_impostor_bob.py：模擬 Eve 冒充 Bob 並與 Alice 建立錯誤金鑰的假冒型攻擊模型
-
-eve_memory_attack.py：記憶型 Eve 攻擊，部分記錄後再重傳資訊，模擬延遲型滲透
-
-qber_alert_simulator.py：針對不同攔截比例計算 QBER 並設計可自訂門檻的告警觸發機制
-
-README_RED_TEAM_DRAFT.md：模組說明草稿與未來腳本構想補充
-
-requirements.txt：所需套件清單（如 matplotlib 等）
-
-🔧 此模組目前為延伸草稿階段，未來將依據研究進展補上完整模擬腳本、攻擊成功率分析、告警觸發圖表等進階功能，作為「混合式加密架構 × 滲透測試」應用探索起點。
+模組內容：
+- `eve_impostor_bob.py`：模擬 Eve 假冒 Bob 並與 Alice 建立錯誤金鑰的假冒型攻擊模型
+- `eve_memory_attack.py`：記憶型 Eve 攻擊，部分記錄後再重傳資訊，模擬延遲型滲透
+- `eve_qber_simulation.py`：多次模擬 QBER，繪製折線圖
+- `qber_alert_simulator.py`：針對不同 QBER 值觸發安全 / 可疑 / 攻擊中狀態
+- 📘 自述文件：`README_EVE_IMPOSTOR.md`, `README_EVE_MEMORY.md`, `README_RED_TEAM_DRAFT.md`
+- 📊 **補強完成**：新增 **QBER 折線圖、統計表與警示系統**
 
 ---
 
-### 📦 輔助檔案與說明文件
+## 📦 輔助檔案與說明文件
 
 - `main_projects_index.md`：導覽頁，對應各模組入口與補充說明  
 - `LICENSE`：MIT 開源授權  
-- `requirements.txt`：各模組所需套件（如 matplotlib、networkx 等）
+- `requirements.txt`：各模組所需套件（如 matplotlib、networkx 等）  
 
 📌 所有模組皆具備可執行程式碼、自述文件與圖片輸出，並保留 `main()` 主程式區塊以方便獨立測試與重現實驗。
+
+---
+
+## 📄 研究白皮書與多元學習證明 | Whitepaper & Certificates
+
+📝 `whitepaper/`：研究成果白皮書（特殊選才用）  
+- **第一版**：`李佳穎_白皮書_交大資工.pdf`（初稿）  
+- **第二版**：`李佳穎_資工系特殊選材_白皮書.pdf`（修正版，已補強教授建議：協定流程、安全性邏輯、QBER 圖像）  
+
+📁 `certificates_proof/`：多元學習證明與參與紀錄  
+- 包含台積電半導體雲端學院、布萊恩英文辯論課程、高中女生科教訪問  
+- 📍 **目前路徑仍在修正中**，部分證書尚未完成整理  
 
 ---
 
@@ -144,10 +136,16 @@ requirements.txt：所需套件清單（如 matplotlib 等）
 | 🧰 工程習慣  | 統一命名、資料夾結構清晰、LICENSE/requirements.txt 完整、中文註解與英文提交訊息並行        |
 | 📝 附加紀錄  | 補充開發歷程截圖、白皮書、流程草稿、圖像版本等說明檔案，強化非 AI 產出與學習歷程可追溯性                |
 
+---
+
+## 📌 教授建議補強紀錄（2025/07）
+
+- 🔐 協定流程補強與安全性邏輯解釋（`README_BB84_BASIC.md`）  
+- 🧪 QBER 錯誤模型與圖像模擬補強（`README_QBER_ANALYSIS.md`）  
+
+---
 
 ## 🔭 未來展望與應用場景（延伸計畫）
-
-本專案目前已涵蓋初步混合式加密模擬，未來將持續拓展以下方向：
 
 - ☑️ 強化 QKD 與 PQC 模擬架構的參數彈性與適用場景  
 - ☑️ 加入紅隊攻擊腳本與模擬流程，模擬國防通訊滲透風險與預警邏輯  
@@ -156,44 +154,14 @@ requirements.txt：所需套件清單（如 matplotlib 等）
 
 📌 所有研究皆以教育與實驗模擬為核心，期待未來能銜接國安、軍方、資通訊產業等應用需求。
 
+---
+
 ## 📣 讀者回饋區 | Feedback & Suggestions
 
-如果你在使用本模擬程式的過程中有任何回饋、錯誤回報、或功能建議，歡迎透過以下方式聯繫我：
+如果你在使用本模擬程式的過程中有任何想法、錯誤回報或改進建議，歡迎透過以下方式提供回饋：
 
-- 🐛 提出 GitHub Issue：[點我前往](https://github.com/kailyn17/BB84-Simulation/issues)
+- 🐛 [GitHub Issues](https://github.com/kailyn17/BB84-Simulation/issues) — 回報 Bug 或功能建議  
+- 💬 提出改進想法，幫助專案持續進步  
+- 🙌 所有建議與交流都將作為未來改版與延伸研究的參考  
 
-你的一點建議，都可能幫助本專案變得更完整，感謝支持與鼓勵 🙏
-
-## 📄 研究白皮書與多元學習證明 | Whitepaper & Certificates
-為補強研究背景與特殊選才申請完整性，專案中額外補充兩項重要模組：
-
-📝 whitepaper/：研究成果白皮書（特殊選才用）
-檔案：李佳穎_白皮書_交大資工.pdf
-
-說明：整合本專案所有實作內容、架構設計與學習歷程，作為特殊選才申請成果使用
-
-特色：強調從 0 自學歷程、程式實作與模擬重現過程，並結合國際安全標準趨勢、QKD 與 PQC 應用整合、紅隊腳本發想等亮點
-
-📁 certificates_proof/：多元學習證明與參與紀錄
-子資料夾：certificates/
-
-內容包括：
-
-tsmc_online_seminar_certificate.pdf：台積電半導體雲端學院課程參與證明
-
-bryan_debate_course_certificate.jpg：布萊恩英文辯論課證書
-
-science_education_visit_physics.png：高中女生科教巡訪參加證明
-
-其他補充參與資料與學習說明 README
-
-📌 這些內容可作為申請面試的學習歷程佐證，呈現本專案背後的多元參與與學習動機。
-
----
-
-## 📌 教授建議補強紀錄（2025/07）
-
-- 🔐 協定流程補強與安全性邏輯解釋（`README_BB84_BASIC.md`）
-- 🧪 QBER 錯誤模型與圖像模擬補強（`README_QBER_ANALYSIS.md`）
-
----
+感謝支持與鼓勵，這個專案的成長也需要來自讀者與研究社群的回饋 🚀
