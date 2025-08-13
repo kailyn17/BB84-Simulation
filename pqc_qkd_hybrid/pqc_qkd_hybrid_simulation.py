@@ -1,157 +1,147 @@
-# pqc_module.py
+# pqc_qkd_hybrid_simulation.py
 from __future__ import annotations
 
-import base64
-import random
-from typing import Optional, Dict, Any, Tuple
+import math
+from typing import Dict, Any, Optional
 
-# -----------------------------
-# 低階：位元組位移（安全可傳輸）
-# -----------------------------
-def _shift_bytes(data: bytes, shift: int) -> bytes:
-    # 逐 byte 位移並取模 256，確保可逆
-    return bytes((b + shift) % 256 for b in data)
+import qkd_module  # 需要有 simulate_bb84(...)
+import pqc_module  # 僅用於示範整合（不影響回傳介面）
 
-def _normalize_key(key: Optional[str]) -> Tuple[int, bool]:
-    """
-    將 key 正規化成整數位移量。
-    若 key 為 None → 隨機產生 1~10 的正整數並回傳 (key, generated=True)
-    若 key 為字串 → 嘗試轉換為整數
-    """
-    if key is None:
-        return random.randint(1, 10), True
-    if isinstance(key, str):
-        key = key.strip()
-        if key == "":
-            return random.randint(1, 10), True
-        try:
-            return int(key), False
-        except Exception:
-            # 若傳入非數字字串，退回隨機 key（避免壞輸入）
-            return random.randint(1, 10), True
-    # 其他型別（不預期），也退回隨機
-    return random.randint(1, 10), True
 
-# -----------------------------
-# API 預期介面（供 FastAPI 呼叫）
-# -----------------------------
-def encrypt(plaintext: str, key: Optional[str] = None) -> Dict[str, Any]:
+def _bits_to_bytes(bit_str: str) -> bytes:
     """
-    以「位元組位移 + Base64」加密：
-    - 先將 plaintext 以 UTF-8 轉 bytes
-    - 以 key（整數位移）位移每個 byte
-    - 將結果做 Base64 編碼，回傳 ASCII 安全字串
+    將 '0101...' 的 bit 串轉為 bytes。
+    若長度不是 8 的倍數，會在呼叫端先截斷。
+    """
+    if len(bit_str) % 8 != 0:
+        raise ValueError("bit string length must be a multiple of 8 before conversion")
+
+    out = bytearray()
+    for i in range(0, len(bit_str), 8):
+        byte_bits = bit_str[i:i+8]
+        out.append(int(byte_bits, 2))
+    return bytes(out)
+
+
+def _derive_demo_pqc_shift_from_bits(bit_str: str) -> int:
+    """
+    以 sifted bits 派生一個 1~10 的整數位移量（僅 demo / 教學用途）。
+    這個值會放進 meta['demo_pqc_shift']，不會影響回傳的 session_key。
+    """
+    if not bit_str:
+        return 3
+    s = sum(1 for b in bit_str if b == "1")
+    return (s % 10) + 1
+
+
+def hybrid_key_exchange(
+    n_bits: int = 256,
+    eve_mode: str = "none",
+    intercept_ratio: float = 0.0,
+    seed: Optional[int] = None,
+) -> Dict[str, Any]:
+    """
+    PQC × QKD 的混合密鑰交換（教學/模擬版）
+    - 透過 QKD 取得 sifted bits 與 QBER
+    - 將 sifted bits 對齊 8 的倍數後，轉為十六進位字串作為 session_key
+    - 回傳格式符合 api/app.py 的預期
+
+    參數：
+      n_bits:       QKD 原始位元長度（未篩選前）
+      eve_mode:     "none" / "basic" / "impostor" / "memory"（由 qkd_module 實作細節）
+      intercept_ratio: 0.0~1.0（交給 qkd_module 決定如何使用）
+      seed:         隨機種子（可重現）
 
     回傳：
       {
-        "ciphertext": str,  # Base64 字串
-        "key": str,         # 加密用正整數位移（若輸入 key 為 None 才會回傳）
-        "meta": { "algo": "byte-shift+b64", "note": "...", "private_key": "-<key>" }
+        "session_key": "<hex string>",
+        "qber": 0.0~1.0,
+        "meta": {
+          "source": "BB84",
+          "used_bits": int,
+          "dropped_bits": int,
+          "eve_mode": str,
+          "intercept_ratio": float,
+          "seed": int|None,
+          "status": "ok" | "warn_high_qber",
+          "qber_threshold": 0.11,
+          "demo_pqc_shift": int,
+          "example_ciphertext": str  # 以 demo_pqc_shift 對 'HELLO' 加密的示意
+        }
       }
     """
-    k, generated = _normalize_key(key)  # k 可能是任意整數；我們以「加密用正整數」輸出
-    # 將 key 規範為正整數做加密（可讀性較好）
-    pub_k = abs(int(k)) if k != 0 else 3  # 避免 0 位移
-    data = plaintext.encode("utf-8")
-    shifted = _shift_bytes(data, pub_k)
-    b64 = base64.b64encode(shifted).decode("ascii")
+    # 1) 跑 QKD 模擬
+    sim = qkd_module.simulate_bb84(
+        length=n_bits,
+        eve_mode=eve_mode,
+        intercept_ratio=intercept_ratio,
+        seed=seed,
+    )
 
-    result: Dict[str, Any] = {
-        "ciphertext": b64,
+    alice_key = str(sim.get("alice_key", ""))  # sifted bits (Alice)
+    bob_key   = str(sim.get("bob_key", ""))    # sifted bits (Bob)
+    qber      = float(sim.get("qber", 0.0))
+
+    # 2) 我們以「Alice 的 sifted bits」作為 session key 的素材
+    #    （在真實環境會做抽樣比對/資訊調整/隱私放大；這裡為教學簡化版）
+    sifted_bits = alice_key
+
+    # 對齊至 8 的倍數長度（丟棄尾端不足 8 的位元，讓 bytes 轉換簡單可逆）
+    usable_len = (len(sifted_bits) // 8) * 8
+    used = sifted_bits[:usable_len]
+    dropped = len(sifted_bits) - usable_len
+
+    if usable_len == 0:
+        raise ValueError(
+            "Sifted key length is 0 after alignment. Increase n_bits or check QKD pipeline."
+        )
+
+    # 3) 轉 bytes → hex 當作 session_key，便於跨系統傳遞與記錄
+    key_bytes = _bits_to_bytes(used)
+    session_key_hex = key_bytes.hex()
+
+    # 4) 設定一個教學閾值，若 QBER 太高，提醒要做隱私放大或棄用
+    #    常見安全門檻會依場景不同；這裡先用 11% 當示意
+    qber_threshold = 0.11
+    status = "ok" if qber <= qber_threshold else "warn_high_qber"
+
+    # 5) 示範與 pqc_module 的簡單整合（僅放 meta，不影響主回傳）
+    demo_shift = _derive_demo_pqc_shift_from_bits(used)
+    example_ciphertext = pqc_module.encrypt("HELLO", str(demo_shift))["ciphertext"]
+
+    return {
+        "session_key": session_key_hex,
+        "qber": qber,
         "meta": {
-            "algo": "byte-shift+b64",
-            "note": "Demo PQC-like placeholder (byte-shift + Base64). For teaching/demo only.",
-            "private_key": str(-pub_k),  # 對應的解密位移
+            "source": "BB84",
+            "used_bits": usable_len,
+            "dropped_bits": dropped,
+            "eve_mode": eve_mode,
+            "intercept_ratio": float(intercept_ratio),
+            "seed": seed,
+            "status": status,
+            "qber_threshold": qber_threshold,
+            # 下面兩個欄位僅為示範 PQC 結合
+            "demo_pqc_shift": demo_shift,
+            "example_ciphertext": example_ciphertext,
         },
     }
-    # 若呼叫方沒有提供 key，就把產生的正整數 key 回傳給他保存
-    if generated:
-        result["key"] = str(pub_k)
-    return result
 
-def decrypt(ciphertext: str, key: str) -> Dict[str, Any]:
-    """
-    解密邏輯：
-    - Base64 轉回位元組
-    - 對每個 byte 做相反位移
-      * 若使用者提供的是「加密用正整數 key」，我們自動取負值做解密
-      * 若使用者直接提供負整數（私鑰）也 OK
-    回傳：
-      { "plaintext": str }
-    """
-    # 正規化 key：若 key > 0，解密要用 -key；若 key 已是負值，就直接用
-    k, _ = _normalize_key(key)
-    dec_k = -abs(int(k)) if k >= 0 else int(k)
 
-    try:
-        raw = base64.b64decode(ciphertext.encode("ascii"))
-    except Exception as e:
-        # 若不是合法 Base64，直接丟出錯（讓 FastAPI 捕捉成 400/500）
-        raise ValueError(f"Invalid Base64 ciphertext: {e}")
-
-    shifted_back = _shift_bytes(raw, dec_k)
-    try:
-        plaintext = shifted_back.decode("utf-8")
-    except Exception:
-        # 若無法以 UTF-8 解碼，代表 key 不對或密文壞掉
-        raise ValueError("Decryption failed: wrong key or corrupted ciphertext (UTF-8 decode error).")
-
-    return {"plaintext": plaintext}
-
-# -----------------------------
-# 與你原本的 API 相容的函式（保留）
-# （不再建議在新 API 內部使用，但留著不破壞舊習慣）
-# -----------------------------
-def generate_pqc_keys():
-    """
-    產生模擬用的「公鑰 / 私鑰」概念：
-    - public_key: 正整數位移
-    - private_key: 負整數位移（解密用）
-    """
-    shift = random.randint(1, 10)
-    return shift, -shift
-
-def pqc_encrypt(message, public_key):
-    """
-    舊版字元位移（可能出現不可見字元）；保留以相容舊程式。
-    建議改用 encrypt()（byte-shift + Base64）。
-    """
-    return ''.join([chr(ord(char) + int(public_key)) for char in message])
-
-def pqc_decrypt(ciphertext, private_key):
-    """
-    舊版字元位移解密；保留以相容舊程式。
-    建議改用 decrypt()。
-    """
-    return ''.join([chr(ord(char) + int(private_key)) for char in ciphertext])
-
-# -----------------------------
-# 可獨立執行的測試
-# -----------------------------
 def _selftest():
-    pub, priv = generate_pqc_keys()
-    msg = "量子資安 PQC×QKD Hybrid 🚀"
-    # 新 API
-    enc = encrypt(msg, str(pub))
-    dec = decrypt(enc["ciphertext"], str(priv))  # 也可用正的 pub，decrypt 會自動取負
-    # 舊 API（只適合 ASCII 範圍，中文會亂碼，故僅測英文）
-    legacy_msg = "Quantum"
-    legacy_ct = pqc_encrypt(legacy_msg, pub)
-    legacy_pt = pqc_decrypt(legacy_ct, priv)
+    print(">>> Running hybrid_key_exchange() self-test")
+    res = hybrid_key_exchange(n_bits=256, eve_mode="none", intercept_ratio=0.0, seed=42)
+    print("QBER:", res["qber"])
+    print("Session key (hex, first 32):", res["session_key"][:32] + "...")
+    print("Used bits:", res["meta"]["used_bits"], "Dropped:", res["meta"]["dropped_bits"])
+    print("Status:", res["meta"]["status"])
+    print("Demo PQC shift:", res["meta"]["demo_pqc_shift"])
+    print("Example ciphertext (HELLO):", res["meta"]["example_ciphertext"])
 
-    print("=== New API ===")
-    print("Plaintext:", msg)
-    print("Ciphertext (b64):", enc["ciphertext"][:60] + "...")
-    print("Decrypted:", dec["plaintext"])
-    print("Meta:", enc.get("meta"))
-
-    print("\n=== Legacy API (ASCII only) ===")
-    print("Legacy Plaintext:", legacy_msg)
-    print("Legacy Ciphertext:", legacy_ct)
-    print("Legacy Decrypted:", legacy_pt)
 
 def main():
     _selftest()
+
 
 if __name__ == "__main__":
     main()
