@@ -1,4 +1,6 @@
 # draw_hybrid_flowchart.py
+# 繪製混合架構流程圖，展示模組關係（演算法細節省略）
+
 """
 Public-safe diagram placeholder.
 完整流程圖會揭露方法論；公開版只輸出文字示意。
