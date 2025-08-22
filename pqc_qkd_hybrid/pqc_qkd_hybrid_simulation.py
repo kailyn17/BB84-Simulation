@@ -1,3 +1,6 @@
+# pqc_qkd_hybrid_simulation.py
+# PQC 與 QKD 混合模擬框架，部分核心細節保護
+
 """
 Public-safe hybrid simulation stub.
 PQC×QKD 的整合流程與錯誤處理為專利核心，移至私庫。
