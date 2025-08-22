@@ -1,23 +1,22 @@
 # eve_impostor_bob.py
 # 模擬 Eve 假冒 Bob 的攻擊模型，計算單次 QBER
 
-import random
+"""
+Public-safe stub: Eve impostor (pretend-to-be Bob) attack.
 
-def eve_impostor_attack(length=20):
+實際攻擊路徑與條件判斷已移至私有倉庫；本檔僅作為對接/教學用之介面保留。
+"""
+
+from typing import Dict, Any, Sequence
+
+def run_impostor_bob(qubits: Sequence[int], *, noise: float = 0.0) -> Dict[str, Any]:
     """
-    Eve 假冒 Bob 的攻擊模型
-    - Alice 產生隨機比特
-    - Eve 以 30% 機率翻轉比特
-    - 回傳單次攻擊的 QBER
+    :param qubits: 示意輸入
+    :param noise: 佔位參數（公開版不使用）
+    :return: 固定示例，不含真實攻擊與通訊互動細節
     """
-    alice_bits = [random.choice([0, 1]) for _ in range(length)]
-    eve_bits = [bit if random.random() > 0.3 else 1 - bit for bit in alice_bits]
-    qber = sum(1 for a, e in zip(alice_bits, eve_bits) if a != e) / length
-    return qber
-
-def main():
-    qber = eve_impostor_attack()
-    print(f"[Eve 假冒 Bob 攻擊] QBER = {qber:.2f}")
-
-if __name__ == "__main__":
-    main()
+    return {
+        "qber": 0.30,         # placeholder
+        "detected": True,     # placeholder
+        "note": "public demo; full logic is private (patent pending).",
+    }
