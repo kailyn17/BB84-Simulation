@@ -1,3 +1,6 @@
+# eve_basic_attack.py
+# Eve 攔截 Alice qubit 的基本攻擊模擬（部分細節移至私有倉庫）
+
 """
 Public-safe stub.
 
