@@ -1,3 +1,6 @@
+# qber_alert_simulator.py
+# QBER 狀態警示範例（自適應閾值邏輯移至私有）
+
 """
 Public-safe demo for QBER status.
 動態/自適應閾值、多參數融合與防禦觸發邏輯皆移至私有倉庫（專利準備中）。
