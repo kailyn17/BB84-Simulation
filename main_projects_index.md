@@ -1,42 +1,33 @@
-# 🗂️ 專案結構與模組導覽 | Project Structure Index
+# 🗂️ 專案結構與模組導覽 | Project Structure Index (Updated)
 
-此開源專案為量子資安模擬與密碼學應用系列，涵蓋 BB84 協定、Eve 攻擊模型、後量子加密（PQC）、傳統 RSA 加密、混合式密鑰交換架構與紅隊攻擊模擬。
+本專案為量子資安模擬與密碼學應用系列，涵蓋 **BB84 協定**、**Eve 攻擊模型**、**後量子加密（PQC）**、**RSA**、**混合密鑰交換**及**紅隊攻擊腳本**，並整合證書佐證與白皮書文件。
 
-| 📁 資料夾                         | 主題內容                 | 代表功能或檔案                                                                                                                                                                                                                                       |
-| ------------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `bb84_qkd/`                    | BB84 協定模擬 + 攻擊模型     | `bb84_basic.py`, `eve_basic_attack.py`, `eve_impostor_attack.py`, `qber_vs_intercept_ratio.py`, `README_BB84_BASIC.md`, `README_EVE_BASIC.md`, `README_EVE_IMPOSTOR.md`, `README_QBER_ANALYSIS.md`, `images/`                                 |
-| `pqc_qkd_hybrid/`              | 後量子密碼 × QKD 混合密鑰交換模擬 | `pqc_qkd_hybrid_simulation.py`, `pqc_module.py`, `qkd_module.py`, `draw_hybrid_flowchart.py`, `README_HYBRID_SIM.md`, `README_PQC_MODULE.md`, `README_QKD_MODULE.md`, `images/hybrid_flowchart.png`                                           |
-| `pqc_rsa_diagram/`             | RSA 加解密流程圖示與模擬程式     | `rsa_process_diagram.py`, `README.md`, `images/rsa_process.png`                                                                                                                                                                               |
-| `quantum_red_team_simulation/` | 量子資安紅隊攻擊模擬腳本         | `eve_impostor_bob.py`, `eve_impostor_average.py`, `eve_memory_attack.py`, `eve_qber_simulation.py`, `qber_alert_simulator.py`, `README_EVE_IMPOSTOR.md`, `README_EVE_MEMORY.md`, `README_RED_TEAM_DRAFT.md`, `images/eve_qber_simulation.png` |
-| `certificates_proof/`          | 多元學習證明與參與紀錄          | `certificates/`（台積電半導體雲端學院、傅爾布萊特英文辯論課程、WCS 高中女生科學教育巡迴計畫等證書）                                                                                                                                                                                       |
-| `whitepaper/`                  | 申請用白皮書文件（PDF）        | `李佳穎_白皮書_交大資工.pdf`(第一版本), `李佳穎_資工系特殊選材_白皮書.pdf`(最新版本)                                                                                                                                                                                                     |
-| `images/`                      | 全域圖像與可視化資源           | `qber_mean_std_table.png`, `qber_vs_intercept_ratio.png` 等                                                                                                                                                                                    |
-| `LICENSE`                      | 授權條款（MIT License）    | 全專案套用 MIT 開源授權                                                                                                                                                                                                                                |
-| `README.md` / `自述文件.md`        | 主自述文件（README）        | 專案總覽與導讀                                                                                                                                                                                                                                       |
-| `main_projects_index.md`       | 專案目錄索引               | 總覽所有模組與成果                                                                                                                                                                                                                                     |
-                                                                                                                                                                                                                             |
+| 📁 資料夾 / 檔案                   | 主題內容                           | 代表功能或檔案                                                                                                                |
+| -------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `bb84_qkd/`                      | **BB84 協定與攻擊模型**               | `bb84_basic.py`, `eve_basic_attack.py`, `eve_impostor_attack.py`, `qber_vs_intercept_ratio.py`<br>`README_BB84_BASIC.md`, `README_EVE_BASIC.md`, `README_EVE_IMPOSTOR.md`, `README_QBER_ANALYSIS.md`, `images/`（QBER 圖表等） |
+| `pqc_qkd_hybrid/`                | **PQC × QKD 混合模擬**               | `pqc_qkd_hybrid_simulation.py`, `pqc_module.py`, `qkd_module.py`, `draw_hybrid_flowchart.py`<br>`README_HYBRID_SIM.md`, `README_PQC_MODULE.md`, `README_QKD_MODULE.md`, `images/hybrid_flowchart.png` |
+| `pqc_rsa_diagram/`               | **RSA 流程圖與教學**                  | `rsa_process_diagram.py`, `README.md`, `images/rsa_process.png`                                                            |
+| `quantum_red_team_simulation/`   | **紅隊攻擊與進階腳本**                 | `eve_impostor_bob.py`, `eve_impostor_average.py`, `eve_memory_attack.py`, `eve_qber_simulation.py`, `qber_alert_simulator.py`<br>`README_EVE_IMPOSTOR.md`, `README_EVE_MEMORY.md`, `README_RED_TEAM_DRAFT.md`, `images/eve_qber_simulation.png` |
+| `tests/`                         | **測試與驗證**                        | `test_utils.py`                                                                                                            |
+| `certificates_proof/`            | **多元學習證明**                       | `certificates/`（TSMC、Fulbright 辯論課程、WCS 巡迴等證書）                                                                |
+| `whitepaper/`                    | **研究與申請文件**                      | `Whitepaper_BB84-PQC_Public_v3.0.pdf`, `李佳穎_白皮書_交大資工.pdf`, `李佳穎_資工系特殊選材_白皮書.pdf`                           |
+| **全域文件與授權**                   |                                  | `LICENSE`, `README.md`, `main_projects_index.md`                                                                          |
 
 ---
 
-🚀 導覽建議（建議閱讀順序）
-從 bb84_qkd/README_BB84_BASIC.md 開始了解 QKD 基礎流程
+### 🚀 導覽建議
+1. **從基礎開始**：閱讀 `bb84_qkd/README_BB84_BASIC.md` 了解 QKD 基礎流程  
+2. **進入攻擊模型**：依序看 `eve_basic_attack.py`、`eve_impostor_attack.py`  
+3. **觀察結果**：參考 `qber_vs_intercept_ratio.py` 與 `images/` 中圖表  
+4. **進階混合應用**：研究 `pqc_qkd_hybrid/` 下的 PQC × QKD 模擬  
+5. **紅隊思維**：探索 `quantum_red_team_simulation/` 紅隊腳本與防禦策略  
+6. **補充學習**：`certificates_proof/` 為學習佐證，`whitepaper/` 為完整研究文件  
 
-接著進入 eve_basic_attack.py 與 eve_impostor_attack.py，了解攻擊者模型設計
+---
 
-參考 qber_vs_intercept_ratio.py 與圖表，觀察錯誤率變化
-
-閱讀 pqc_qkd_hybrid/ 模擬，體會 QKD 與 PQC 混合應用的安全策略
-
-最後探索 quantum_red_team_simulation/ 紅隊腳本，思考真實攻擊情境下的防禦對策
-
-補充：certificates_proof/ 可查閱相關證書與學習佐證、whitepaper/ 為本次申請之完整研究文件
-
-📎 其他說明
-
-註:部分證書還在修復圖片顯示問題，證書證明文件資料夾certificates_proof/目前仍有路徑問題，後續會更新完整
-
-所有模擬程式皆具備中文註解，並盡可能維持工程師風格（含主函式、模組結構）
-
-本專案將持續擴充更多模組與紅隊攻擊腳本
+### 📎 附註
+- **證書資料夾**內部路徑仍在整理中，之後將更新顯示  
+- 所有主要 Python 腳本已補充中文註解與工程師習慣（`main()`、`__main__`、錯誤處理）  
+- 未來將持續擴增模組與改善 README  
 
 若有使用建議、錯誤回報或改進想法，歡迎於 Issues 區回報 🙌
